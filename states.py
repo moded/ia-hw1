@@ -1,8 +1,10 @@
 import abc
 
+
 class State(metaclass=abc.ABCMeta):
     def __init__(self):
         pass
+
 
 class MapState(State):
     junctionIdx = None
@@ -18,13 +20,14 @@ class MapState(State):
     def __eq__(self, other):
         return self.junctionIdx == other.junctionIdx
 
+
 class BusState(State):
     junctionIdx = None
     waitingOrders = None
     ordersOnBus = None
     finishedOrders = None
 
-    def __init__(self, currentLoc:int, waitingOrders:list, ordersOnBus:list, finishedOrders:list):
+    def __init__(self, currentLoc: int, waitingOrders: list, ordersOnBus: list, finishedOrders: list):
         super().__init__()
         self.junctionIdx = currentLoc
         self.waitingOrders = waitingOrders
@@ -42,4 +45,7 @@ class BusState(State):
 
     def isGoal(self):
         # TODO : Implement
-        raise NotImplementedError
+        if len(self.waitingOrders) == 0 and len(self.ordersOnBus) == 0:
+            return True
+        else:
+            return False

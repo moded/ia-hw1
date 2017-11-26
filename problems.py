@@ -1,4 +1,6 @@
 import abc
+
+
 class Problem(metaclass=abc.ABCMeta):
     initialState = None
 
@@ -29,11 +31,14 @@ class Problem(metaclass=abc.ABCMeta):
     def isGoal(self, state):
         raise NotImplementedError
 
+
 from states import MapState
+
 
 class MapProblem(Problem):
     target = None
     _roads = None
+
     def __init__(self, roads, source, target):
         self._roads = roads
         I = MapState(source, roads[source].coordinates)
@@ -61,11 +66,14 @@ class MapProblem(Problem):
     def isGoal(self, state):
         return state.junctionIdx == self.target.junctionIdx
 
+
 from states import BusState
+
 
 class BusProblem(Problem):
     orders = None
-    def __init__(self, startingPoint:int, orders:list):
+
+    def __init__(self, startingPoint: int, orders: list):
         self.orders = orders
 
         I = BusState(startingPoint, self.orders.copy(), [], [])
@@ -87,12 +95,19 @@ class BusProblem(Problem):
 
     # Get the new state created after going from one state to a new location (on map)
     def _getNewStateAtLoc(self, previousState, newLoc):
-        # TODO : Implement
-        newWaiting = []
-        newOnBus = []
-        newFinished = []
+        newFinished = previousState.finishedOrders.copy()
+        newOnBus = previousState.ordersOnBus.copy()
+        newWaiting = previousState.waitingOrders.copy()
 
-        raise NotImplementedError
+        for i in previousState.waitingOrders:
+            if i[0] == newLoc:
+                newOnBus.append(i)
+                newWaiting.remove(i)
+
+        for i in previousState.ordersOnBus:
+            if i[1] == newLoc:
+                newFinished.append(i)
+                newOnBus.remove(i)
 
         return BusState(newLoc, newWaiting, newOnBus, newFinished)
 

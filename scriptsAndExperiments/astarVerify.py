@@ -10,9 +10,13 @@ from ways.draw import plotPath, plotOrders
 from astar import AStar
 from heuristics import L2DistanceHeuristic
 from path import Path
+import pickle
+
 
 # Read files
-roads = load_map_from_csv(Consts.getDataFilePath("israel.csv"))
+#roads = load_map_from_csv(Consts.getDataFilePath("israel.csv"))
+#pickle.dump(roads, open( "save.p", "wb" ) )
+roads = pickle.load(open( "save.p", "rb"))
 prob = BusProblem.load(Consts.getDataFilePath("TLV_5.in"))
 
 mapAstar = AStar(L2DistanceHeuristic(), shouldCache=True)

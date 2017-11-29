@@ -64,8 +64,9 @@ class AStar:
             open_set.pop(current)
             closed_set.add(current)
             if current.junctionIdx == problem.target.junctionIdx:
-                res =  (self._reconstructPath(parents, current).insert(0,problem.initialState),
-                        g_score[current],
+                path = self._reconstructPath(parents, current, problem.initialState)
+                #path.insert(0,problem.initialState)
+                res = (path, g_score[current],
                         self.heuristic.estimate(problem, problem.initialState),
                         developed)
                 self._storeInCache(problem,res)
@@ -110,11 +111,11 @@ class AStar:
         # raise NotImplementedError
 
     # Reconstruct the path from a given goal by its parent and so on
-    def _reconstructPath(self, parents, goal):
+    def _reconstructPath(self, parents, goal, initial):
         # TODO : Implement
         currentNode = goal
         path = [goal]
-        while currentNode in parents:
+        while currentNode is not initial:
             path.insert(0, parents[currentNode])
             currentNode=parents[currentNode]
         return path

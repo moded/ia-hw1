@@ -61,55 +61,61 @@ class AStar:
 
         while open_set:
             current = self._getOpenStateWithLowest_f_score(open_set)
-
+            open_set.pop(current)
             closed_set.add(current)
-            if current.coordinates == problem.target.coordinates:
-                return self._reconstructPath(parents, current)
+            if current.junctionIdx == problem.target.junctionIdx:
+                res =  (self._reconstructPath(parents, current).insert(0,problem.initialState),
+                        g_score[current],
+                        self.heuristic.estimate(problem, problem.initialState),
+                        developed)
+                self._storeInCache(problem,res)
+                return res
             for s in problem.expandWithCosts(current, self.cost):
                 new_g = g_score[current] + s[1]
                 # old_node = open_set[s[0]]
                 if s[0] in open_set:
-                    old_node = open_set[s[0]]
+                    old_node = s[0]
                     if new_g < g_score[old_node]:
                         g_score[old_node] = new_g
                         parents[old_node] = current
+                        open_set[old_node] = new_g + self.heuristic.estimate(problem, s[0])
                         # else
                 elif s[0] in closed_set:
                     # old_node = closed_set[s]
-                    old_node = closed_set[s[0]]
+                    old_node = s[0]
                     if new_g < g_score[old_node]:
                         g_score[old_node] = new_g
                         parents[old_node] = current
+                        open_set[old_node] = new_g + self.heuristic.estimate(problem, s[0])
+                        closed_set.remove(old_node)
                 else:
                     open_set[s[0]] = s[1] + g_score[current] + self.heuristic.estimate(problem, s[0])
-                    g_score[s[0]]=s[1] + g_score[current]
-                    parents[s[0]]=current
-                    developed+=1
-            del open_set[current]
-            #TODO update g_score, develpoed, parents
+                    g_score[s[0]] = s[1] + g_score[current]
+                    parents[s[0]] = current
+                    developed += 1
+                    # TODO update g_score, develpoed, parents
 
-
-# TODO : VERY IMPORTANT: must return a tuple of (path, g_score(goal), h(I), developed)
+        # TODO : VERY IMPORTANT: must return a tuple of (path, g_score(goal), h(I), developed)
         return ([], -1, -1, developed)
-
 
     def _getOpenStateWithLowest_f_score(self, open_set):
         # TODO : Implement
         minState = None
         min = 0
         for s in open_set:
-            if open_set[s] < min or minState == None:
+            if minState is None or open_set[s] < min :
                 min = open_set[s]
                 minState = s
         return minState
         # raise NotImplementedError
-
 
     # Reconstruct the path from a given goal by its parent and so on
     def _reconstructPath(self, parents, goal):
         # TODO : Implement
         currentNode = goal
         path = [goal]
-        while currentNode.parent:
-            path.insert(0, currentNode.parent)
-        raise NotImplementedError
+        while currentNode in parents:
+            path.insert(0, parents[currentNode])
+            currentNode=parents[currentNode]
+        return path
+        # raise NotImplementedError

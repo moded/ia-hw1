@@ -82,6 +82,9 @@ class AStar:
                         parents[old_node] = current
                 else:
                     open_set[s[0]] = s[1] + g_score[current] + self.heuristic.estimate(problem, s[0])
+                    g_score[s[0]]=s[1] + g_score[current]
+                    parents[s[0]]=current
+                    developed+=1
             del open_set[current]
             #TODO update g_score, develpoed, parents
 

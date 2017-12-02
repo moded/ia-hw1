@@ -18,6 +18,3 @@ plt.show()
 
 # TODO : Write the code as explained in the instructions
 #raise NotImplementedError
-
-def makeVector(self,x,alpha,T):
-    return

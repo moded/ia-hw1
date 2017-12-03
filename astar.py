@@ -62,6 +62,7 @@ class AStar:
         while open_set:
             current = self._getOpenStateWithLowest_f_score(open_set)
             open_set.pop(current)
+            developed += 1
             closed_set.add(current)
             if current.junctionIdx == problem.target.junctionIdx:
                 path = self._reconstructPath(parents, current, problem.initialState)
@@ -93,7 +94,7 @@ class AStar:
                     open_set[s[0]] = s[1] + g_score[current] + self.heuristic.estimate(problem, s[0])
                     g_score[s[0]] = s[1] + g_score[current]
                     parents[s[0]] = current
-                    developed += 1
+
                     # TODO update g_score, develpoed, parents
 
         # TODO : VERY IMPORTANT: must return a tuple of (path, g_score(goal), h(I), developed)

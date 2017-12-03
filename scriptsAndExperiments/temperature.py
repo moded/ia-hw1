@@ -11,11 +11,12 @@ X_div_alpha =  np.matlib.repmat( X / alpha, 1, T.size )
 p = np.power(X_div_alpha, -1 / T)
 denom = np.sum(p, 0).reshape(1,100)
 p = p / denom
-# Xs = functools.reduce(lambda x,y: x+y,(X/alpha)**(-1/T))
-# Pr = ((X/alpha)**((-1/T)))/Xs
-plt.plot(np.transpose(p))
-plt.show()
+labels = ['T = 400','T = 900','T = 390','T = 1000','T = 550']
+for i in range(len(p)):
+    plt.plot(np.transpose(p[i]),label=(labels[i]))
 plt.title("Probability as a function of Temprature")
+plt.legend()
+plt.show()
 
 # TODO : Write the code as explained in the instructions
 #raise NotImplementedError

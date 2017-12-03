@@ -47,9 +47,10 @@ for i in range(REPEATS):
         resultsMonotonized.append(results[i])
     else:
         resultsMonotonized.append(resultsMonotonized[i-1])
-plt.plot(resultsMonotonized)
-plt.plot(greedyDistanceVec)
+stochast, = plt.plot(resultsMonotonized,label='Greedy Stochastic Solver')
+determ, = plt.plot(greedyDistanceVec,label='Greedy Deterministic solver')
 plt.title("Quality of solution as a function of number of repetitions")
+plt.legend(handles = [stochast,determ])
 plt.show()
 
 # TODO : Part2 - Remove the exit and perform the t-test

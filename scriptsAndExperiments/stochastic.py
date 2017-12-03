@@ -6,6 +6,7 @@ from problems import BusProblem
 from costs import L2DistanceCost
 from heuristics import L2DistanceHeuristic
 import numpy as np
+import scipy.stats as stt
 
 REPEATS = 150
 
@@ -54,4 +55,14 @@ plt.legend(handles = [stochast,determ])
 plt.show()
 
 # TODO : Part2 - Remove the exit and perform the t-test
-raise NotImplementedError
+E = sum(resultsMonotonized) / resultsMonotonized.__len__()
+std = np.sqrt(((resultsMonotonized[i] + E)**2)/resultsMonotonized.__len__())
+
+mean = np.mean(resultsMonotonized)
+stddev = np.std(resultsMonotonized)
+print('calculated E = {}, stddev = {}'.format(E,std))
+print('stock func mean = {}, stddev = {}'.format(E,std))
+# assert mean == E
+# assert std == stddev
+p_val = stt.ttest_1samp(mean,greedyDistance)
+print('P-value is: {}'.format(p_val))

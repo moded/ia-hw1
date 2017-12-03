@@ -37,8 +37,20 @@ print("\nDone!")
 
 # TODO : Part1 - Plot the diagram required in the instructions
 from matplotlib import pyplot as plt
-raise NotImplementedError
-
+# raise NotImplementedError
+greedyDistanceVec = []
+resultsMonotonized = [results[0]]
+for i in range(REPEATS):
+    greedyDistanceVec.append(greedyDistance)
+    if i == 0: continue
+    if results[i] <= resultsMonotonized[i-1]:
+        resultsMonotonized.append(results[i])
+    else:
+        resultsMonotonized.append(resultsMonotonized[i-1])
+plt.plot(resultsMonotonized)
+plt.plot(greedyDistanceVec)
+plt.title("Quality of solution as a function of number of repetitions")
+plt.show()
 
 # TODO : Part2 - Remove the exit and perform the t-test
 raise NotImplementedError

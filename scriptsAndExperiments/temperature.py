@@ -15,6 +15,7 @@ p = p / denom
 # Pr = ((X/alpha)**((-1/T)))/Xs
 plt.plot(np.transpose(p))
 plt.show()
+plt.title("Probability as a function of Temprature")
 
 # TODO : Write the code as explained in the instructions
 #raise NotImplementedError

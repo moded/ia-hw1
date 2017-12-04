@@ -15,6 +15,9 @@ labels = ['T = 400','T = 900','T = 390','T = 1000','T = 550']
 for i in range(len(p)):
     plt.plot(np.transpose(p[i]),label=(labels[i]))
 plt.title("Probability as a function of Temprature")
+plt.xlabel('T')
+plt.ylabel('Probability')
+plt.grid()
 plt.legend()
 plt.show()
 

@@ -50,19 +50,18 @@ for i in range(REPEATS):
         resultsMonotonized.append(resultsMonotonized[i-1])
 stochast, = plt.plot(resultsMonotonized,label='Greedy Stochastic Solver')
 determ, = plt.plot(greedyDistanceVec,label='Greedy Deterministic solver')
-plt.title("Quality of solution as a function of number of repetitions")
+plt.title("Quality of solution as a function of number repetitions' number")
 plt.legend(handles = [stochast,determ])
+plt.grid()
+plt.xlabel('#repetitions')
+plt.ylabel('Path Length')
 plt.show()
-
 # TODO : Part2 - Remove the exit and perform the t-test
 E = sum(resultsMonotonized) / resultsMonotonized.__len__()
 std = np.sqrt(((resultsMonotonized[i] + E)**2)/resultsMonotonized.__len__())
-
 mean = np.mean(resultsMonotonized)
 stddev = np.std(resultsMonotonized)
 print('calculated E = {}, stddev = {}'.format(E,std))
 print('stock func mean = {}, stddev = {}'.format(E,std))
-# assert mean == E
-# assert std == stddev
-p_val = stt.ttest_1samp(mean,greedyDistance)
-print('P-value is: {}'.format(p_val))
+p_val = stt.ttest_1samp(results,greedyDistance)
+print('P-value is: {}'.format(p_val[1]))

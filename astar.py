@@ -62,7 +62,6 @@ class AStar:
         while open_set:
             current = self._getOpenStateWithLowest_f_score(open_set)
             open_set.pop(current)
-            developed += 1
             closed_set.add(current)
             #if current.junctionIdx == problem.target.junctionIdx:
             if problem.isGoal(current):
@@ -73,6 +72,7 @@ class AStar:
                         developed)
                 self._storeInCache(problem,res)
                 return res
+            developed += 1
             for s in problem.expandWithCosts(current, self.cost):
                 new_g = g_score[current] + s[1]
                 # old_node = open_set[s[0]]

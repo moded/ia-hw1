@@ -64,7 +64,8 @@ class AStar:
             open_set.pop(current)
             developed += 1
             closed_set.add(current)
-            if current.junctionIdx == problem.target.junctionIdx:
+            #if current.junctionIdx == problem.target.junctionIdx:
+            if problem.isGoal(current):
                 path = self._reconstructPath(parents, current, problem.initialState)
                 #path.insert(0,problem.initialState)
                 res = (path, g_score[current],
